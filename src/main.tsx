@@ -9,26 +9,20 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ErrorPage from './pages/ErrorPage';
 import TextEditor from './components/TextEditor';
-import Root, { loader as rootLoader } from "./pages/Homepage";
-
 import './index.css'
+import { AuthProvider } from './hooks/useAuth';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    loader: rootLoader,
     children: [
       {
         path: "/:notebook/:file",
         element: <TextEditor />,
       },
     ],
-  },
-  {
-    path: "/login",
-    element: <Login />
   },
   {
     path: "/register",
@@ -38,6 +32,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>,
 )
