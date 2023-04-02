@@ -15,7 +15,7 @@ export default function Homepage() {
   useEffect(() => {
     const fetchNotebooks = async () => {
       if (user) {
-        const data = await getNotebooks(user);
+        const data = await getNotebooks("0");
         setNotebooks(data);
       }
     };
@@ -23,7 +23,7 @@ export default function Homepage() {
   }, [user]);
 
   return (
-    <div className="bg-slate-100 h-screen w-screen overflow-hidden">
+    <div className="bg-slate-100">
       <div className="h-[5vh] shadow-sm">
         <Header tab={tab} setTab={setTab} />
       </div>
@@ -35,7 +35,7 @@ export default function Homepage() {
         >
           <Sidebar notebooks={notebooks} />
         </div>
-        <div className="h-full pt-8">
+        <div className="h-full flex flex-col items-center overflow-y-auto">
           {!fileId ? (
             <div className="h-full text-neutral-800 flex flex-col items-center justify-center gap-4 w-56">
               <h1 className="text-5xl font-bold">⌘ N</h1>

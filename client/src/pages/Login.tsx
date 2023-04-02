@@ -17,7 +17,7 @@ function Login() {
     <div className="w-screen h-screen flex flex-col items-center justify-center gap-16">
       <h1 className="text-6xl font-bold">Login</h1>
       <form onSubmit={loginUser} className="flex flex-col gap-8">
-        <div className="flex flex-col gap-3 relative w-[20vw]">
+        <div className="flex flex-col gap-3 relative w-[20rem]">
           <TextInput label="Email" value={email} setValue={setEmail} required />
           <TextInput label="Password" value={password} setValue={setPassword} type="password" required />
         </div>

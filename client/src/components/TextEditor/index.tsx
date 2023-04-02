@@ -1,20 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { File, getFile } from "../../utils/api";
 import DOMPurify from "dompurify";
+import { File, getFile } from "../../utils/api";
 
 export default function TextEditor() {
-  const { fileId } = useParams();
+  const user_id = "0";
+  const { notebook, fileId } = useParams();
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     const updateFile = async () => {
-      if (fileId) {
-        setFile(await getFile(fileId));
+      if (fileId && notebook) {
+        setFile(await getFile(user_id, notebook, fileId));
       }
     };
     updateFile();
-  }, [fileId]);
+  }, [fileId, notebook]);
 
   const html = useMemo(() => {
     if (file) {
@@ -25,7 +26,7 @@ export default function TextEditor() {
   }, [file]);
 
   return (
-    <div className="w-[794px] h-full overflow-y-auto px-8 pb-8">
+    <div className="w-[794px] bg-transparent h-fit p-8">
       <div className="flex justify-between items-center">
         <div>breadcrumbs</div>
         <div>page count</div>
