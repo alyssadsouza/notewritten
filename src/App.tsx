@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Homepage from "./pages/Homepage";
 import useAuth from "./hooks/useAuth";
 import Login from "./pages/Login";
-import { redirect, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function App() {
   const { user } = useAuth();

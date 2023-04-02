@@ -5,7 +5,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        appear: {
+          from: {opacity: 0}, to: {opacity: 1}
+        }
+      },
+      animation: {
+        'appear': 'appear 100ms ease-in',
+      }
+    },
   },
   plugins: [],
 }

@@ -1,3 +1,5 @@
+import fs from 'fs';
+import convertToHTML from 'markdown-to-html-converter';
 export interface User {
   email: string;
   password: string;
@@ -11,7 +13,6 @@ export interface Notebook {
 
 export interface File {
   id: string;
-  title: string;
   content: string;
 }
 
@@ -35,11 +36,49 @@ export const getNotebooks = async (user: User) : Promise<Notebook[]> => {
   ];
 };
 
+const helloworld = `
+# Hello World
+
+This is a test file to simulate what files will look like in the text editor.
+
+## Header 2
+
+Here is a list for brevity:
+
+- Item 1
+- Item 2
+  - Sub-item 2
+- Item 3
+
+### Header 3
+
+And this is some more detail about Header 2.
+
+Here's inline code: \`cool\`
+
+Here's a code block:
+
+\`\`\`
+console.log("Hello!");
+\`\`\`
+
+`;
+
 export const getFile = async (id: string) : Promise<File> => {
+  // const files = idToFilename as {[key: string]: string};
+  // const filepath = files[id];
+  let content = convertToHTML(helloworld);
+
+  // fs.readFile(filepath, () => (err: string, data: string) => {
+  //   if (err) {
+  //       throw err;
+  //   }
+  //   content = data;
+  // });
+
   return {
-    id: id,
-    title: "Title",
-    content: "This is some content.",
+    id,
+    content,
   };
 };
 

@@ -23,7 +23,7 @@ export default function Homepage() {
   }, [user]);
 
   return (
-    <div className="bg-slate-100 h-screen w-screen">
+    <div className="bg-slate-100 h-screen w-screen overflow-hidden">
       <div className="h-[5vh] shadow-sm">
         <Header tab={tab} setTab={setTab} />
       </div>
@@ -35,9 +35,12 @@ export default function Homepage() {
         >
           <Sidebar notebooks={notebooks} />
         </div>
-        <div className="h-full">
+        <div className="h-full pt-8">
           {!fileId ? (
-            <div>Create a new file with cmd + N or open an existing file.</div>
+            <div className="h-full text-neutral-800 flex flex-col items-center justify-center gap-4 w-56">
+              <h1 className="text-5xl font-bold">⌘ N</h1>
+              <h3>Create a new file with ⌘ N or open an existing file.</h3>
+              </div>
           ) : (
             <Outlet />
           )}
