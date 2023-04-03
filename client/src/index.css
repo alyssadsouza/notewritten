@@ -27,7 +27,7 @@ ul {
 	@apply list-disc
 }
 code {
-	@apply bg-gray-200 rounded-md p-1
+	@apply bg-gray-100 rounded-md p-1 text-sm
 }
 pre code {
 	@apply p-3 block

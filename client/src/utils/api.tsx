@@ -20,7 +20,7 @@ export interface File {
 
 // Set config defaults when creating the instance
 const server = axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
 export const getNotebooks = async (user_id: string): Promise<Notebook[]> => {

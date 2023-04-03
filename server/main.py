@@ -2,10 +2,14 @@ import json
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173",
+    os.getenv("FRONTEND_URL"),
 ]
 
 app.add_middleware(
