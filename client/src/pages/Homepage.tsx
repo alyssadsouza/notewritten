@@ -27,15 +27,15 @@ export default function Homepage() {
       <div className="h-[5vh] shadow-sm">
         <Header tab={tab} setTab={setTab} />
       </div>
-      <div className="h-[95vh] flex justify-between">
+      <div className={`h-[95vh] flex ${tab === "Equations" ? "justify-start" : "justify-end"}`}>
         <div
-          className={`h-full transition-all overflow-hidden shadow-md border ${
+          className={`h-full transition-all overflow-hidden fixed left-0 shadow-md border ${
             tab === "Sidebar" ? "w-[20vw]" : "w-0"
           }`}
         >
           <Sidebar notebooks={notebooks} />
         </div>
-        <div className="h-full flex flex-col items-center overflow-y-auto">
+        <div className={`h-full min-w-[810px] ${tab === "Equations" ? "w-[65vw]" : tab === "Sidebar" ? "w-[80vw]" : "w-full"} flex flex-col items-center overflow-y-auto`}>
           {!fileId ? (
             <div className="h-full text-neutral-800 flex flex-col items-center justify-center gap-4 w-56">
               <h1 className="text-5xl font-bold">⌘ N</h1>
@@ -46,7 +46,7 @@ export default function Homepage() {
           )}
         </div>
         <div
-          className={`h-full transition-all overflow-hidden shadow-md border ${
+          className={`h-full transition-all overflow-hidden shadow-md fixed right-0 border ${
             tab === "Equations" ? "w-[35vw]" : "w-0"
           }`}
         >

@@ -32,9 +32,9 @@ export default function TextEditor() {
         <div>page count</div>
       </div>
       <div
-		key={fileId}
+		    key={fileId}
         dangerouslySetInnerHTML={html}
-        className="w-full h-[1123px] bg-white p-16 animate-appear"
+        className="w-full h-[1123px] bg-white p-16 animate-appear shadow-md"
       />
     </div>
   );
