@@ -46,7 +46,9 @@ def create_page(session, user_id: str, notebook_id: str, name: str):
 	upload_key = get_upload_key(name, user_id, notebook_id)
 	page = Page(id=uuid.uuid4(), name=name, user_id=user_id, notebook_id=notebook_id, s3_upload_key=upload_key)
 	session.add(page)
+	session.commit()
 	upload_page_content("", upload_key)
+	session.refresh(page)
 
 	print(f"Created new page in {upload_key}.")
 	return page

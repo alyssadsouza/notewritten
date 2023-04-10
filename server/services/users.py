@@ -10,7 +10,9 @@ def create_user(session, email: str, password: str):
     
     user = User(id=uuid.uuid4(), email=email, password=password)
     session.add(user)
+    session.commit()
     print(f"Created new user {email}.")
+    session.refresh(user)
     return user
 
 def get_user(session, email: str):

@@ -7,20 +7,10 @@ import { getNotebooks, Notebook } from "../utils/api";
 import useAuth from "../hooks/useAuth";
 
 export default function Homepage() {
-  const { user } = useAuth();
+  const { token } = useAuth();
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [tab, setTab] = useState<string>("Edit");
   const { notebook, fileId } = useParams();
-
-  useEffect(() => {
-    const fetchNotebooks = async () => {
-      if (user) {
-        const data = await getNotebooks("0");
-        setNotebooks(data);
-      }
-    };
-    fetchNotebooks();
-  }, [user]);
 
   return (
     <div className="bg-slate-100">
@@ -37,9 +27,9 @@ export default function Homepage() {
         </div>
         <div className={`h-full min-w-[810px] ${tab === "Equations" ? "w-[65vw]" : tab === "Sidebar" ? "w-[80vw]" : "w-full"} flex flex-col items-center overflow-y-auto`}>
           {!fileId ? (
-            <div className="h-full text-neutral-800 flex flex-col items-center justify-center gap-4 w-56">
+            <div className="h-full text-slate-500 flex flex-col items-center justify-center gap-4 w-56">
               <h1 className="text-5xl font-bold">⌘ N</h1>
-              <h3>Create a new file with ⌘ N or open an existing file.</h3>
+              <h3 className="font-normal text-lg">Create a new file with ⌘ N or open an existing file.</h3>
               </div>
           ) : (
             <Outlet />

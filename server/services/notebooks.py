@@ -11,7 +11,9 @@ def create_notebook(session, user_id: str, name: str):
     notebook = Notebook(id=uuid.uuid4(), user_id=user_id, name=name)
 
     session.add(notebook)
+    session.commit()
     print(f"Created new notebook {name}.")
+    session.refresh(notebook)
     return notebook
 
 def get_notebook(session, user_id: str, name: str):

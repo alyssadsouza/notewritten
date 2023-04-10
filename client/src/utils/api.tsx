@@ -65,28 +65,21 @@ export const getFile = async (
 export const login = async (
   email: string,
   password: string
-): Promise<AxiosResponse<any, any> | null> => {
+): Promise<AxiosResponse> => {
   return server.post(`/users/login`, {
-    email,
-    password,
+    username: email,
+    password: password,
+  }, {
+    headers: { "content-type": "application/x-www-form-urlencoded" },
   });
 };
 
 export const register = async (
   email: string,
   password: string
-): Promise<AxiosResponse<any, any> | null> => {
-  let res = null;
-  await server
-    .post(`/users/register`, {
-      email,
-      password,
-    })
-    .then((response) => {
-      res = response;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  return res;
+): Promise<AxiosResponse> => {
+  return server.post(`/users/register`, {
+    email,
+    password,
+  });
 };

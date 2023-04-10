@@ -8,7 +8,7 @@ import {
 import { login, User } from "../utils/api";
 
 interface AuthContextType {
-  user: User | null;
+  token: string | null;
   loading: boolean;
   error?: any;
   login: (email: string, password: string) => Promise<void>;
@@ -22,45 +22,44 @@ export function AuthProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const getUser = () => {
+  const getToken = () => {
 	// check if token has been saved for current session
-    const userString = localStorage.getItem("user");
-    if (userString) {
-      const user = JSON.parse(userString);
-      return user;
+    const token = localStorage.getItem("token");
+    if (token) {
+      return token;
     }
     return null;
   };
 
-  const [user, setUser] = useState<User | null>(getUser());
+  const [token, setToken] = useState<string | null>(getToken());
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const loginUser = async (username: string, password: string) => {
     login(username, password)
       .then((response) => {
-        const user = response.data;
-        setUser(user);
-          localStorage.setItem("user", JSON.stringify(user));
+        const { access_token } = response.data;
+        setToken(access_token);
+          localStorage.setItem("token", access_token);
       })
       .catch((error) => setError(error))
       .finally(() => setLoading(false));
   };
 
   const logout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
+    localStorage.removeItem("token");
+    setToken(null);
   };
 
   const memoedValue = useMemo(
     () => ({
-      user,
+      token,
       loading,
       error,
       login: loginUser,
       logout,
     }),
-    [user, loading, error]
+    [token, loading, error]
   );
 
   return (

@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import { useNavigate, useParams } from "react-router-dom";
 
 function App() {
-  const { user } = useAuth();
+  const { token } = useAuth();
   const { notebook } = useParams();
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ function App() {
     }
   }, []);
 
-  return <div className="App">{!user ? <Login /> : <Homepage />}</div>;
+  return <div className="App">{!token ? <Login /> : <Homepage />}</div>;
 }
 
 export default App;

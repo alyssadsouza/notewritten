@@ -46,6 +46,11 @@ export default {
           color: 'rgb(217, 33, 0)',
           border: '1px solid rgb(217, 33, 0)'
         },
+        '.alert-green': {
+          backgroundColor: 'rgba(0, 217, 98, 0.1)',
+          color: 'rgb(0, 217, 98)',
+          border: '1px solid rgb(0, 217, 98)'
+        }
       })
     })
   ],
