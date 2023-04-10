@@ -1,5 +1,5 @@
 import uuid
-from models.db import Notebook
+from models.models import Notebook
 
 def create_notebook(session, user_id: str, name: str):
     notebook = get_notebook(session, user_id, name)

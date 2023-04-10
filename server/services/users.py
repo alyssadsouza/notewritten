@@ -1,5 +1,5 @@
 import uuid
-from models.db import User
+from models.models import User
 
 def create_user(session, email: str, password: str):
     user = get_user(session, email)

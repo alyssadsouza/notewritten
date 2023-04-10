@@ -17,7 +17,7 @@ export default function TextInput({ label, value, setValue, type = "text", requi
         required={required}
       />
       <span
-        className={`absolute left-2 text-gray-400 transition-all ${
+        className={`absolute left-2 text-gray-400 transition-all pointer-events-none ${
           !value.length ? "top-3" : "p-1 text-xs -top-3 bg-white"
         } peer-focus:p-1 peer-focus:text-blue-500 peer-focus:text-xs peer-focus:-top-3 peer-focus:bg-white`}
       >

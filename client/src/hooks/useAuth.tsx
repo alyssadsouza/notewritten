@@ -11,7 +11,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   error?: any;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -38,9 +38,10 @@ export function AuthProvider({
 
   const loginUser = async (username: string, password: string) => {
     login(username, password)
-      .then((user) => {
+      .then((response) => {
+        const user = response.data;
         setUser(user);
-        localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("user", JSON.stringify(user));
       })
       .catch((error) => setError(error))
       .finally(() => setLoading(false));

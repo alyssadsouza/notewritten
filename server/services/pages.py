@@ -1,5 +1,5 @@
 import boto3, uuid
-from models.db import Page
+from models.models import Page
 
 # Let's use Amazon S3
 s3 = boto3.resource('s3')

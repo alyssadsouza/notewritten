@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 // @ts-ignore
 import convertToHTML from "markdown-to-html-converter";
 export interface User {
@@ -24,7 +24,7 @@ const server = axios.create({
 });
 
 export const getNotebooks = async (user_id: string): Promise<Notebook[]> => {
-  let data : Notebook[] = [];
+  let data: Notebook[] = [];
 
   await server
     .get(`/notebooks/${user_id}`)
@@ -38,7 +38,11 @@ export const getNotebooks = async (user_id: string): Promise<Notebook[]> => {
   return data;
 };
 
-export const getFile = async (user: string, notebook: string, id: string): Promise<File> => {
+export const getFile = async (
+  user: string,
+  notebook: string,
+  id: string
+): Promise<File> => {
   const data = {
     notebook,
     id,
@@ -58,16 +62,31 @@ export const getFile = async (user: string, notebook: string, id: string): Promi
   return data;
 };
 
-const getUser = async (email: string, password: string) => {
-  return {
-    data: {
-      email,
-      password,
-    },
-  };
+export const login = async (
+  email: string,
+  password: string
+): Promise<AxiosResponse<any, any> | null> => {
+  return server.post(`/users/login`, {
+    email,
+    password,
+  });
 };
 
-export const login = async (email: string, password: string): Promise<User> => {
-  const response = await getUser(email, password);
-  return response.data;
+export const register = async (
+  email: string,
+  password: string
+): Promise<AxiosResponse<any, any> | null> => {
+  let res = null;
+  await server
+    .post(`/users/register`, {
+      email,
+      password,
+    })
+    .then((response) => {
+      res = response;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  return res;
 };
