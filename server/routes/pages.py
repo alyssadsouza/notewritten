@@ -36,10 +36,10 @@ async def update_page_content_obj(body: PageInContent, token: Annotated[str, Dep
 	raise HTTPException(status_code=400, detail="Page does not exist")
 
 @router.post("/delete")
-async def delete_page_obj(body: PageIn, token: Annotated[str, Depends(oauth2_scheme)], session: Session = Depends(get_db)) -> PageOut:
+async def delete_page_obj(body: PageIn, token: Annotated[str, Depends(oauth2_scheme)], session: Session = Depends(get_db)):
 	page = get_page_by_id(session, body.id)
 	if page is not None:
-		delete_page(session, body.id)
+		delete_page(session, page)
 		return Response("success", status_code=200)
 	raise HTTPException(status_code=400, detail="Page does not exist")
 

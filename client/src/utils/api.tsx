@@ -1,6 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-// @ts-ignore
-import convertToHTML from "markdown-to-html-converter";
 export interface User {
   email: string;
   password: string;
@@ -76,6 +74,40 @@ export const getNotebooks = async (token: Token): Promise<AxiosResponse> => {
   });
 };
 
+export const createNotebook = async (
+  token: Token,
+  name: string
+): Promise<AxiosResponse> => {
+  return server.post(
+    `/notebooks/create`,
+    {
+      name,
+    },
+    {
+      headers: {
+        Authorization: token.token_type + " " + token.access_token,
+      },
+    }
+  );
+};
+
+export const deleteNotebook = async (
+  token: Token,
+  notebook_id: string
+): Promise<AxiosResponse> => {
+  return server.post(
+    `/notebooks/delete`,
+    {
+      id: notebook_id,
+    },
+    {
+      headers: {
+        Authorization: token.token_type + " " + token.access_token,
+      },
+    }
+  );
+};
+
 export const getPageContent = async (
   token: Token,
   page_id: string
@@ -114,7 +146,7 @@ export const updatePageContent = async (
   return server.post(
     `/pages/update-content`,
     {
-      page_id,
+      id: page_id,
       content,
     },
     {
@@ -132,7 +164,7 @@ export const deletePage = async (
   return server.post(
     `/pages/delete`,
     {
-      page_id,
+      id: page_id,
     },
     {
       headers: {

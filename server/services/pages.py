@@ -58,7 +58,6 @@ def update_page_content(page: Page, content: str):
 def delete_page(session, page: Page):
 	session.delete(page)
 	session.commit()
-	session.refresh(page)
 
 	print(f"Deleted page.")
 

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 import uuid
+from sqlalchemy.dialects.postgresql import UUID
 
 class ORMBaseModel(BaseModel):
     class Config:
@@ -18,13 +19,13 @@ class UserBase(ORMBaseModel):
 class UserCreate(UserBase):
 	password: str
 
-
 class NotebookIn(ORMBaseModel):
+	id: uuid.UUID
+
+class NotebookInCreate(ORMBaseModel):
 	name: str
-	user_id: str
 
 class NotebookOut(NotebookIn):
-	id: uuid.UUID
 	name: str
 	user_id: uuid.UUID
 

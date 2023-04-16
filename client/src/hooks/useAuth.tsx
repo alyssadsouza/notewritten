@@ -49,6 +49,7 @@ export function AuthProvider({
   };
 
   const logout = () => {
+	console.log("logging out after 30min");
     localStorage.removeItem("token");
     setToken(null);
   };

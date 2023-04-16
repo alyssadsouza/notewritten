@@ -6,17 +6,21 @@ import { ReactComponent as NewNotebook } from "../../assets/add-notebook.svg";
 import { ReactComponent as Notebook } from "../../assets/notebook.svg";
 import { ReactComponent as OpenNotebook } from "../../assets/open-notebook.svg";
 import { ReactComponent as Page } from "../../assets/document.svg";
-import { createPage } from "../../utils/api";
+import { createPage, createNotebook } from "../../utils/api";
 import { useEffect, useState } from "react";
 import ContextMenu from "./ContextMenu";
+import { getNotebookName, getPageName } from "./utils";
 
 export default function Sidebar() {
   const { token } = useAuth();
   const { notebooks, fetchNotebooks } = useNotebooks();
   const { notebook_id, page_id } = useParams();
   const navigate = useNavigate();
+  // for context menu
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [menuCoords, setMenuCoords] = useState({ x: 0, y: 0 });
+  const [clickedNotebook, setClickedNotebook] = useState<boolean>(false);
+  const [contextMenuId, setContextMenuId] = useState<string>("");
 
   useEffect(() => {
     // open context menu on right click, close on clicking elsewhere
@@ -27,29 +31,25 @@ export default function Sidebar() {
     };
   }, []);
 
-  const getPageName = () => {
-    let pageName = "Untitled Page";
-    let index = 1;
-    const currNotebookPages = notebooks.find(
-      (el) => el.notebook.id === notebook_id
-    )?.pages;
-    while (
-      currNotebookPages &&
-      currNotebookPages.find((page) => page.name === pageName)
-    ) {
-      pageName = `Untitled Page (${index})`;
-      index++;
-    }
-    return pageName;
-  };
-
   const addPage = () => {
     if (token && notebook_id) {
-      createPage(token, notebook_id, getPageName())
+      createPage(token, notebook_id, getPageName(notebooks, notebook_id))
         .then((response) => {
           const page = response.data;
           fetchNotebooks(token);
           navigate(page.id);
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
+  const addNotebook = () => {
+    if (token && notebook_id) {
+      createNotebook(token, getNotebookName(notebooks))
+        .then((response) => {
+          const notebook = response.data;
+          fetchNotebooks(token);
+          navigate(`/${notebook.id}`);
         })
         .catch((err) => console.error(err));
     }
@@ -72,7 +72,7 @@ export default function Sidebar() {
       className="w-full h-full bg-slate-50 p-4 !overflow-visible"
     >
       <div className="flex justify-end items-center gap-2">
-        <button>
+        <button onClick={addNotebook}>
           <NewNotebook className="w-5 hover:text-sky-500 text-slate-400 transition-all" />
         </button>
         <button onClick={addPage}>
@@ -81,20 +81,33 @@ export default function Sidebar() {
       </div>
       <hr className="my-4" />
       {notebooks.map((notebook) => (
-        <div className="flex flex-col gap-2" key={notebook.notebook.id}>
+        <div className="flex flex-col gap-2 mb-4" key={notebook.notebook.id}>
           <Link
             to={`/${notebook.notebook.id}`}
             className={`flex items-center gap-2 rounded-lg hover:text-sky-500 transition-all ${
               page_id === notebook.notebook.id && "bg-sky-100"
             }`}
             key={notebook.notebook.id}
+            onContextMenu={(e) => {
+              setClickedNotebook(true);
+			  setContextMenuId(notebook.notebook.id)
+              openContextMenu(e);
+            }}
           >
             {notebook_id === notebook.notebook.id ? (
-              <OpenNotebook className="w-4" />
+              <OpenNotebook className="w-5" />
             ) : (
               <Notebook className="w-4" />
             )}
-            <h3 className="text-base font-medium">{notebook.notebook.name}</h3>
+            <h3
+              className={`text-base ${
+                notebook.notebook.id === notebook_id
+                  ? "font-bold"
+                  : "font-normal"
+              }`}
+            >
+              {notebook.notebook.name}
+            </h3>
           </Link>
           {notebook.pages.map((page) => (
             <Link
@@ -103,7 +116,11 @@ export default function Sidebar() {
                 page_id === page.id && "bg-sky-100"
               }`}
               key={page.id}
-              onContextMenu={(e) => openContextMenu(e)}
+              onContextMenu={(e) => {
+                setClickedNotebook(false);
+				setContextMenuId(page.id)
+                openContextMenu(e);
+              }}
             >
               <Page className="w-4" />
               <p>{page.name}</p>
@@ -114,10 +131,8 @@ export default function Sidebar() {
       {openMenu && (
         <ContextMenu
           coords={menuCoords}
-          id=""
-          downloadFunction={(id) => {}}
-          renameFunction={(id) => {}}
-          deleteFunction={(id) => {}}
+          id={contextMenuId}
+          isNotebook={clickedNotebook}
         />
       )}
     </div>
