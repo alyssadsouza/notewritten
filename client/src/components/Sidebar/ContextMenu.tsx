@@ -91,7 +91,7 @@ export default function ContextMenu({ coords, id, isNotebook }: Props) {
             : () => deletePageFunction(id)
         }
         className="flex gap-2 items-center justify-between hover:text-sky-400 transition-all disabled:text-gray-300"
-		disabled={notebooks.length  <= 1}
+		disabled={isNotebook && notebooks.length  <= 1}
       >
         <p className="p-2 text-left text-xs">Delete</p>
         <Delete className="w-4 mr-2" />
