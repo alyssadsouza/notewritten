@@ -20,6 +20,4 @@ def get_notebook(session, user_id: str, name: str):
     return session.query(Notebook).filter_by(user_id=user_id, name=name).first()
 
 def get_all_notebooks(session, user_id: str):
-	"""Queries all pages from a user notebook
-	"""
-	return session.query(Notebook).filter(Notebook.user_id.match(user_id)).all()
+	return session.query(Notebook).filter_by(user_id=user_id).all()

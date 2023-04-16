@@ -7,6 +7,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from services.users import create_user, get_user
+from services.notebooks import create_notebook
 from models.schemas import UserBase, UserCreate, Token, TokenData
 from models.models import User
 from database import get_db
@@ -36,7 +37,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.utcnow() + timedelta(minutes=30)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -72,8 +73,8 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], sessio
 async def get_current_active_user(
     current_user: Annotated[User, Depends(get_current_user)]
 ):
-    if current_user.disabled:
-        raise HTTPException(status_code=400, detail="Inactive user")
+    # if current_user.disabled:
+    #     raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
 
@@ -81,6 +82,7 @@ async def get_current_active_user(
 def register(body: UserCreate, session: Session = Depends(get_db)):
 	user = create_user(session, body.email, get_password_hash(body.password))
 	if user is not None:
+		notebook = create_notebook(session, user.id, "Untitled Notebook")
 		return UserBase(email=user.email)
 	raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists")
 

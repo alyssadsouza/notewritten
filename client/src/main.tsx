@@ -11,6 +11,7 @@ import ErrorPage from './pages/ErrorPage';
 import TextEditor from './components/TextEditor';
 import './index.css'
 import { AuthProvider } from './hooks/useAuth';
+import { NotebooksProvider } from './hooks/useNotebooks';
 
 const router = createBrowserRouter([
   {
@@ -19,12 +20,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/:notebook",
+    path: "/:notebook_id",
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/:notebook/:fileId",
+        path: "/:notebook_id/:page_id",
         element: <TextEditor />,
       },
     ],
@@ -38,7 +39,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <NotebooksProvider>
+		<RouterProvider router={router} />
+	  </NotebooksProvider>
     </AuthProvider>
   </React.StrictMode>,
 )

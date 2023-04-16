@@ -5,10 +5,10 @@ import {
   createContext,
   useContext,
 } from "react";
-import { login, User } from "../utils/api";
+import { login, Token, User } from "../utils/api";
 
 interface AuthContextType {
-  token: string | null;
+  token: Token | null;
   loading: boolean;
   error?: any;
   login: (email: string, password: string) => Promise<void>;
@@ -26,21 +26,23 @@ export function AuthProvider({
 	// check if token has been saved for current session
     const token = localStorage.getItem("token");
     if (token) {
-      return token;
+      return JSON.parse(token);
     }
     return null;
   };
 
-  const [token, setToken] = useState<string | null>(getToken());
+  const [token, setToken] = useState<Token | null>(getToken());
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const loginUser = async (username: string, password: string) => {
+	setLoading(true);
     login(username, password)
       .then((response) => {
-        const { access_token } = response.data;
-        setToken(access_token);
-          localStorage.setItem("token", access_token);
+        const token = response.data;
+        setToken(token);
+          localStorage.setItem("token", JSON.stringify(token));
+		  setTimeout(() => {if (token) logout()}, 1800000);
       })
       .catch((error) => setError(error))
       .finally(() => setLoading(false));

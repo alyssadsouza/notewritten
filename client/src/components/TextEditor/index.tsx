@@ -1,17 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
-import { File, getFile } from "../../utils/api";
+import { PageContent } from "../../utils/api";
 
 export default function TextEditor() {
-  const user_id = "0";
   const { notebook, fileId } = useParams();
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<PageContent | null>(null);
 
   useEffect(() => {
     const updateFile = async () => {
       if (fileId && notebook) {
-        setFile(await getFile(user_id, notebook, fileId));
+        // setFile(await getFile(user_id, notebook, fileId));
       }
     };
     updateFile();

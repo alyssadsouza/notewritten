@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TextInput from "../components/Inputs/TextInput";
 import { register } from "../utils/api";
 import { Link, useNavigate } from "react-router-dom";
+import { ReactComponent as Spinner } from "../assets/spinner.svg";
 
 function Register() {
   const navigate = useNavigate();
@@ -74,13 +75,13 @@ function Register() {
         </div>
         <button
           type="submit"
-          className="group btn btn-green inline-flex gap-2 w-fit self-center"
+          className="group btn btn-green inline-flex gap-2 w-fit self-center items-center"
         >
           <p>Create Account</p>
           {!loading ? (
             <span className="group-hover:translate-x-2 transition-all">→</span>
           ) : (
-            <span className="animate-spin">↻</span>
+            <span className="animate-spin"><Spinner className="w-4"/></span>
           )}
         </button>
         <p className="text-sm">

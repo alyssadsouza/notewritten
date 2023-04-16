@@ -38,10 +38,6 @@ def get_page_content(key: str):
 def create_page(session, user_id: str, notebook_id: str, name: str):
 	"""Creates new Page object in db
 	"""
-	page = get_page(session, user_id, notebook_id, name)
-	if page is not None:
-		print("Page already exists with the same name.")
-		return None
 
 	upload_key = get_upload_key(name, user_id, notebook_id)
 	page = Page(id=uuid.uuid4(), name=name, user_id=user_id, notebook_id=notebook_id, s3_upload_key=upload_key)
@@ -53,11 +49,30 @@ def create_page(session, user_id: str, notebook_id: str, name: str):
 	print(f"Created new page in {upload_key}.")
 	return page
 
-def get_all_pages(session, user_id: str, notebook_id: str):
+def update_page_content(page: Page, content: str):
+	upload_page_content(content, page.s3_upload_key)
+
+	print(f"Updated {page.s3_upload_key}.")
+	return page
+
+def delete_page(session, page: Page):
+	session.delete(page)
+	session.commit()
+	session.refresh(page)
+
+	print(f"Deleted page.")
+
+	return True
+
+def get_all_pages(session, notebook_id: str):
 	"""Queries all pages from a user notebook
 	"""
-	return session.query(Page).filter_by(user_id=user_id,notebook_id=notebook_id).all()
+	return session.query(Page).filter_by(notebook_id=notebook_id).all()
 
 
-def get_page(session, user_id: str, notebook_id: str, name: str):
-	return session.query(Page).filter_by(user_id=user_id,notebook_id=notebook_id,name=name).first()
+def get_page(session, notebook_id: str, name: str):
+	return session.query(Page).filter_by(notebook_id=notebook_id,name=name).first()
+
+
+def get_page_by_id(session, page_id: str):
+	return session.query(Page).filter_by(id=page_id).first()

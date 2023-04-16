@@ -3,10 +3,11 @@ import { useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import TextInput from "../components/Inputs/TextInput";
 import { Link } from "react-router-dom";
+import { ReactComponent as Spinner } from "../assets/spinner.svg";
 
 function Login() {
   const navigate = useNavigate();
-  const { login, error, token } = useAuth();
+  const { login, error, loading, token } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -26,7 +27,11 @@ function Login() {
       {error && (
         <div className="alert alert-red w-[20rem]">
           <span>✕</span>
-          <p className="w-full">{error.message}</p>
+          <p className="w-full">
+            {error.response.status === 401
+              ? "Invalid username or password."
+              : "Something went wrong. Please try again."}
+          </p>
         </div>
       )}
       <h1 className="text-5xl font-bold">Login</h1>
@@ -41,8 +46,16 @@ function Login() {
             required
           />
         </div>
-        <button type="submit" className="btn btn-green w-fit self-center">
-          Login
+        <button
+          type="submit"
+          className="group btn btn-green inline-flex gap-2 w-fit self-center items-center"
+        >
+          <p>Login</p>
+          {!loading ? (
+            <span className="group-hover:translate-x-2 transition-all">→</span>
+          ) : (
+            <span className="animate-spin"><Spinner className="w-4"/></span>
+          )}
         </button>
         <p className="text-sm">
           or{" "}
