@@ -43,7 +43,7 @@ async def delete_page_obj(body: PageIn, token: Annotated[str, Depends(oauth2_sch
 		return Response("success", status_code=200)
 	raise HTTPException(status_code=400, detail="Page does not exist")
 
-@router.get("content/{page_id}")
+@router.get("/content/{page_id}")
 async def get_page_obj(page_id: str, token: Annotated[str, Depends(oauth2_scheme)], session: Session = Depends(get_db)) -> str:
 	page = get_page_by_id(session, page_id)
 	if page is not None:

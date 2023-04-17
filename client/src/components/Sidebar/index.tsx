@@ -69,7 +69,7 @@ export default function Sidebar() {
   return (
     <div
       key={`${notebook_id}-${page_id}`}
-      className="w-full h-full bg-slate-50 p-4 !overflow-visible"
+      className="w-full h-full bg-slate-50 p-4 !overflow-visible text-sm"
     >
       <div className="flex justify-end items-center gap-2">
         <button onClick={addNotebook}>
@@ -100,7 +100,7 @@ export default function Sidebar() {
               <Notebook className="w-4" />
             )}
             <h3
-              className={`text-base ${
+              className={`text-sm ${
                 notebook.notebook.id === notebook_id
                   ? "font-bold"
                   : "font-normal"
