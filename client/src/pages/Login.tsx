@@ -3,7 +3,9 @@ import { useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import TextInput from "../components/Inputs/TextInput";
 import { Link } from "react-router-dom";
+import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Spinner } from "../assets/spinner.svg";
+import shapes from "../assets/shapes.jpg";
 
 function Login() {
   const navigate = useNavigate();
@@ -23,47 +25,62 @@ function Login() {
   }, [token]);
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center gap-16">
-      {error && (
-        <div className="alert alert-red w-[20rem]">
-          <span>✕</span>
-          <p className="w-full">
-            {error.response.status === 401
-              ? "Invalid username or password."
-              : "Something went wrong. Please try again."}
+    <div className="w-screen h-screen grid grid-cols-2">
+      <div>
+        <Logo className="w-36 text-white absolute top-8 left-8" />
+        <img src={shapes} className="object-cover h-full w-full" />
+      </div>
+      <div className="flex flex-col items-center justify-center gap-16">
+        {error && (
+          <div className="alert alert-red w-[20rem]">
+            <span>✕</span>
+            <p className="w-full">
+              {error.response.status === 401
+                ? "Invalid username or password."
+                : "Something went wrong. Please try again."}
+            </p>
+          </div>
+        )}
+        <h1 className="text-5xl font-medium">Sign In</h1>
+        <form onSubmit={loginUser} className="flex flex-col gap-2 items-center">
+          <div className="flex flex-col gap-3 relative w-[20rem] mb-8">
+            <TextInput
+              label="Email"
+              value={email}
+              setValue={setEmail}
+              required
+            />
+            <TextInput
+              label="Password"
+              value={password}
+              setValue={setPassword}
+              type="password"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="group btn btn-blue inline-flex gap-2 w-fit self-center items-center"
+          >
+            <p>Sign In</p>
+            {!loading ? (
+              <span className="group-hover:translate-x-2 transition-all">
+                →
+              </span>
+            ) : (
+              <span className="animate-spin">
+                <Spinner className="w-4" />
+              </span>
+            )}
+          </button>
+          <p className="text-sm">
+            or{" "}
+            <Link to="/register" className="hover:underline text-sky-500">
+              create a new account
+            </Link>
           </p>
-        </div>
-      )}
-      <h1 className="text-5xl font-bold">Login</h1>
-      <form onSubmit={loginUser} className="flex flex-col gap-2 items-center">
-        <div className="flex flex-col gap-3 relative w-[20rem] mb-8">
-          <TextInput label="Email" value={email} setValue={setEmail} required />
-          <TextInput
-            label="Password"
-            value={password}
-            setValue={setPassword}
-            type="password"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="group btn btn-green inline-flex gap-2 w-fit self-center items-center"
-        >
-          <p>Login</p>
-          {!loading ? (
-            <span className="group-hover:translate-x-2 transition-all">→</span>
-          ) : (
-            <span className="animate-spin"><Spinner className="w-4"/></span>
-          )}
-        </button>
-        <p className="text-sm">
-          or{" "}
-          <Link to="/register" className="hover:underline text-emerald-500">
-            create a new account
-          </Link>
-        </p>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
