@@ -8,7 +8,7 @@ export default function Homepage() {
   const [tab, setTab] = useState<string>("Sidebar");
 
   return (
-    <div className="bg-slate-100 text-slate-800">
+    <div className="bg-slate-50 text-slate-800">
       <div className="h-[5vh] shadow-sm">
         <Header tab={tab} setTab={setTab} />
       </div>

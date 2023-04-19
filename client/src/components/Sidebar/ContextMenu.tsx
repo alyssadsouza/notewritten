@@ -66,7 +66,7 @@ export default function ContextMenu({ coords, id, isNotebook }: Props) {
             ? () => downloadNotebookFunction(id)
             : () => downloadPageFunction(id)
         }
-        className="flex gap-2 items-center justify-between hover:text-sky-400 transition-all"
+        className="flex gap-2 items-center justify-between hover:text-teal-400 transition-all"
       >
         <p className="p-2 text-left text-xs">Download</p>
         <Download className="w-4 mr-2" />
@@ -78,7 +78,7 @@ export default function ContextMenu({ coords, id, isNotebook }: Props) {
             ? () => renameNotebookFunction(id)
             : () => renamePageFunction(id)
         }
-        className="flex gap-2 items-center justify-between hover:text-sky-400 transition-all"
+        className="flex gap-2 items-center justify-between hover:text-teal-400 transition-all"
       >
         <p className="p-2 text-left text-xs">Rename</p>
         <Rename className="w-4 mr-2" />
@@ -90,7 +90,7 @@ export default function ContextMenu({ coords, id, isNotebook }: Props) {
             ? () => deleteNotebookFunction(id)
             : () => deletePageFunction(id)
         }
-        className="flex gap-2 items-center justify-between hover:text-sky-400 transition-all disabled:text-gray-300"
+        className="flex gap-2 items-center justify-between hover:text-teal-400 transition-all disabled:text-gray-300"
 		disabled={isNotebook && notebooks.length  <= 1}
       >
         <p className="p-2 text-left text-xs">Delete</p>

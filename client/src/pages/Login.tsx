@@ -54,7 +54,7 @@ function Login() {
           </div>
           <button
             type="submit"
-            className="group btn btn-blue inline-flex gap-2 w-fit self-center items-center"
+            className="group btn btn-primary inline-flex gap-2 w-fit self-center items-center"
           >
             <p>Sign In</p>
             {!loading ? (
@@ -69,7 +69,7 @@ function Login() {
           </button>
           <p className="text-sm">
             or{" "}
-            <Link to="/register" className="hover:underline text-sky-500">
+            <Link to="/register" className="hover:underline text-teal-500">
               create a new account
             </Link>
           </p>

@@ -90,7 +90,7 @@ function Register() {
           </div>
           <button
             type="submit"
-            className="group btn btn-blue inline-flex gap-2 w-fit self-center items-center"
+            className="group btn btn-primary inline-flex gap-2 w-fit self-center items-center"
           >
             <p>Create Account</p>
             {!loading ? (
@@ -105,7 +105,7 @@ function Register() {
           </button>
           <p className="text-sm">
             or{" "}
-            <Link to="/login" className="hover:underline text-sky-500">
+            <Link to="/login" className="hover:underline text-teal-500">
               login here
             </Link>
           </p>

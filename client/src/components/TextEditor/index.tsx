@@ -1,19 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
-import {
-  NotebookPages,
-  Page,
-  getPageContent,
-} from "../../utils/api";
+import { NotebookPages, Page, getPageContent } from "../../utils/api";
 import useNotebooks from "../../hooks/useNotebooks";
 import useAuth from "../../hooks/useAuth";
 
 export default function TextEditor() {
   const { token } = useAuth();
   const { notebooks } = useNotebooks();
+
   const { notebook_id, page_id } = useParams();
   const navigate = useNavigate();
+
   const [currentNotebook, setCurrentNotebook] = useState<NotebookPages | null>(null);
   const [currentPage, setCurrentPage] = useState<Page | null>(null);
   const [fileContent, setFileContent] = useState<string>("");
@@ -25,20 +23,15 @@ export default function TextEditor() {
       navigate("/");
     } else {
       setCurrentNotebook(notebook);
-    }
-  }, [notebook_id]);
-
-  useEffect(() => {
-    // get current page by param id
-    if (currentNotebook) {
-      const page = currentNotebook.pages.find((page) => page.id === page_id);
+      // get current page by param id
+      const page = notebook.pages.find((page) => page.id === page_id);
       if (!page) {
-        navigate(`/${currentNotebook.notebook.id}/`);
+        navigate(`/${notebook.notebook.id}/`);
       } else {
         setCurrentPage(page);
       }
     }
-  }, [currentNotebook, page_id]);
+  }, [notebook_id, page_id]);
 
   useEffect(() => {
     if (token && currentPage) {

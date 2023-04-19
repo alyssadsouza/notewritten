@@ -26,11 +26,11 @@ export default {
           borderRadius: '.5rem',
           transition: 'all 300ms'
         },
-        '.btn-blue': {
-          backgroundColor: 'rgb(14,165,233)',
+        '.btn-primary': {
+          backgroundColor: 'rgb(20,184,166)',
           color: '#fff',
           '&:hover': {
-            backgroundColor: 'rgb(2,132,199)'
+            backgroundColor: 'rgb(13,148,136)'
           },
         },
         '.alert': {

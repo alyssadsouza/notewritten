@@ -2,7 +2,7 @@ import { ReactComponent as PlaceholderImage } from "../../assets/placeholder.svg
 
 export default function EquationEditor() {
   return (
-    <div className="w-full h-full bg-white/50 text-sm text-gray-300">
+    <div className="w-full h-full bg-white/75 text-sm text-gray-300">
       <div className="absolute z-0 pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
         <PlaceholderImage />
         <div className="w-64 my-16 text-left">
