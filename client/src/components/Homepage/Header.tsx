@@ -23,9 +23,9 @@ export default function Header({ tab, setTab }: Props) {
           className="hover:text-sky-500 transition-all"
         >
           {tab === "Sidebar" ? (
-            <FolderActive className="peer/folder w-5 text-sky-500" />
+            <FolderActive className="peer/folder w-[1.15rem] text-sky-500" />
           ) : (
-            <Folder className="peer/folder w-5" />
+            <Folder className="peer/folder w-[1.15rem]" />
           )}
           <p className="absolute z-50 opacity-0 invisible peer-hover/folder:visible peer-hover/folder:opacity-100 transition-opacity translate-y-4 text-xs bg-black/70 text-white p-1 px-2 rounded-lg">
             Files
@@ -36,9 +36,9 @@ export default function Header({ tab, setTab }: Props) {
           className="hover:text-sky-500 transition-all"
         >
           {tab === "Edit" ? (
-            <EditActive className="peer/edit w-5 text-sky-500" />
+            <EditActive className="peer/edit w-[1.15rem] text-sky-500" />
           ) : (
-            <Edit className="peer/edit w-5" />
+            <Edit className="peer/edit w-[1.15rem]" />
           )}
           <p className="absolute z-50 opacity-0 invisible peer-hover/edit:visible peer-hover/edit:opacity-100 transition-opacity translate-y-4 text-xs bg-black/70 text-white p-1 px-2 rounded-lg">
             Text Editor
@@ -49,7 +49,7 @@ export default function Header({ tab, setTab }: Props) {
           className="hover:text-sky-500 transition-all"
         >
           <Equations
-            className={`peer/equations w-5 ${
+            className={`peer/equations w-[1.15rem] ${
               tab === "Equations" && "text-sky-500"
             }`}
           />
@@ -63,7 +63,7 @@ export default function Header({ tab, setTab }: Props) {
       </Link>
       <div>
         <button onClick={logout}>
-          <Logout className="peer/logout w-5 hover:text-sky-500 transition-all" />
+          <Logout className="peer/logout w-[1.15rem] hover:text-sky-500 transition-all" />
           <p className="absolute z-50 opacity-0 invisible peer-hover/logout:visible peer-hover/logout:opacity-100 transition-opacity right-5 top-10 text-xs bg-black/70 text-white p-1 px-2 rounded-lg">
             Logout
           </p>

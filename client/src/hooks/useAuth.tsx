@@ -42,14 +42,12 @@ export function AuthProvider({
         const token = response.data;
         setToken(token);
           localStorage.setItem("token", JSON.stringify(token));
-		  setTimeout(() => {if (token) logout()}, 1800000);
       })
       .catch((error) => setError(error))
       .finally(() => setLoading(false));
   };
 
   const logout = () => {
-	console.log("logging out after 30min");
     localStorage.removeItem("token");
     setToken(null);
   };

@@ -1,5 +1,6 @@
 import { useState, useMemo, ReactNode, createContext, useContext } from "react";
 import { getNotebooks, NotebookPages, Token } from "../utils/api";
+import useAuth from "./useAuth";
 
 interface NotebooksContextType {
   fetchNotebooks: (token: Token) => void;
@@ -18,6 +19,7 @@ export function NotebooksProvider({
 }): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [notebooks, setNotebooks] = useState<NotebookPages[]>([]);
+  const { logout } = useAuth();
 
   const fetchNotebooks = async (token: Token) => {
     setLoading(true);
@@ -27,6 +29,10 @@ export function NotebooksProvider({
       })
       .catch((error) => {
         console.error(error);
+        if (error.response.status == 401) {
+          setLoading(false);
+          logout();
+        }
       })
       .finally(() => setLoading(false));
   };
@@ -35,7 +41,7 @@ export function NotebooksProvider({
     () => ({
       fetchNotebooks,
       notebooks,
-	  loading
+      loading,
     }),
     [fetchNotebooks, notebooks, loading]
   );

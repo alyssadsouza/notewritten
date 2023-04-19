@@ -18,19 +18,13 @@ function Login() {
     login(email, password);
   };
 
-  useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
-  }, [token]);
-
   return (
     <div className="w-screen h-screen grid grid-cols-2">
       <div>
-        <Logo className="w-36 text-white absolute top-8 left-8" />
         <img src={shapes} className="object-cover h-full w-full" />
       </div>
       <div className="flex flex-col items-center justify-center gap-16">
+		<Logo className="w-36 text-white absolute bottom-8" />
         {error && (
           <div className="alert alert-red w-[20rem]">
             <span>✕</span>

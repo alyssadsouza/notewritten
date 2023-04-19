@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
-import { PageContent, getPageContent } from "../../utils/api";
+import {
+  NotebookPages,
+  Page,
+  getPageContent,
+} from "../../utils/api";
 import useNotebooks from "../../hooks/useNotebooks";
 import useAuth from "../../hooks/useAuth";
 
@@ -9,26 +13,42 @@ export default function TextEditor() {
   const { token } = useAuth();
   const { notebooks } = useNotebooks();
   const { notebook_id, page_id } = useParams();
+  const navigate = useNavigate();
+  const [currentNotebook, setCurrentNotebook] = useState<NotebookPages | null>(null);
+  const [currentPage, setCurrentPage] = useState<Page | null>(null);
   const [fileContent, setFileContent] = useState<string>("");
 
-  const currentNotebook = useMemo(
-    () => notebooks.find((notebook) => notebook.notebook.id === notebook_id),
-    [notebook_id]
-  );
-  const currentPage = useMemo(
-    () => currentNotebook?.pages.find((page) => page.id === page_id),
-    [currentNotebook, page_id]
-  );
+  useEffect(() => {
+    // get current notebook by param id
+    const notebook = notebooks.find((notebook) => notebook.notebook.id === notebook_id);
+    if (!notebook) {
+      navigate("/");
+    } else {
+      setCurrentNotebook(notebook);
+    }
+  }, [notebook_id]);
 
   useEffect(() => {
-    if (token && page_id) {
-      getPageContent(token, page_id)
+    // get current page by param id
+    if (currentNotebook) {
+      const page = currentNotebook.pages.find((page) => page.id === page_id);
+      if (!page) {
+        navigate(`/${currentNotebook.notebook.id}/`);
+      } else {
+        setCurrentPage(page);
+      }
+    }
+  }, [currentNotebook, page_id]);
+
+  useEffect(() => {
+    if (token && currentPage) {
+      getPageContent(token, currentPage.id)
         .then((response) => {
-			console.log(response.data);
-		})
+          console.log(response.data);
+        })
         .catch((err) => console.error(err));
     }
-  }, [page_id]);
+  }, [currentPage]);
 
   const html = useMemo(() => {
     if (fileContent) {

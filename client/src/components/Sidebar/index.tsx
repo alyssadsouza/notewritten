@@ -71,13 +71,16 @@ export default function Sidebar() {
       key={`${notebook_id}-${page_id}`}
       className="w-full h-full bg-slate-50 p-4 !overflow-visible text-sm"
     >
-      <div className="flex justify-end items-center gap-2">
-        <button onClick={addNotebook}>
-          <NewNotebook className="w-5 hover:text-sky-500 text-slate-400 transition-all" />
-        </button>
-        <button onClick={addPage}>
-          <NewPage className="w-5 hover:text-sky-500 text-slate-400 transition-all" />
-        </button>
+      <div className="flex justify-between items-center gap-2">
+        <p className="text-slate-400 font-medium">Files</p>
+        <div className="flex justify-end items-center gap-2">
+          <button onClick={addNotebook}>
+            <NewNotebook className="w-[1.2rem] hover:text-sky-500 text-slate-400 transition-all" />
+          </button>
+          <button onClick={addPage}>
+            <NewPage className="w-[1.2rem] hover:text-sky-500 text-slate-400 transition-all" />
+          </button>
+        </div>
       </div>
       <hr className="my-4" />
       {notebooks.map((notebook) => (
@@ -90,14 +93,14 @@ export default function Sidebar() {
             key={notebook.notebook.id}
             onContextMenu={(e) => {
               setClickedNotebook(true);
-			  setContextMenuId(notebook.notebook.id)
+              setContextMenuId(notebook.notebook.id);
               openContextMenu(e);
             }}
           >
             {notebook_id === notebook.notebook.id ? (
-              <OpenNotebook className="w-5" />
+              <OpenNotebook className="w-4 text-yellow-500" />
             ) : (
-              <Notebook className="w-4" />
+              <Notebook className="w-3 text-yellow-500" />
             )}
             <h3
               className={`text-sm ${
@@ -111,18 +114,18 @@ export default function Sidebar() {
           </Link>
           {notebook.pages.map((page) => (
             <Link
-              to={page.id}
+              to={`/${notebook.notebook.id}/${page.id}`}
               className={`flex items-center gap-2 p-1 pl-4 rounded-lg hover:text-sky-500 transition-all ${
                 page_id === page.id && "bg-sky-100"
               }`}
               key={page.id}
               onContextMenu={(e) => {
                 setClickedNotebook(false);
-				setContextMenuId(page.id)
+                setContextMenuId(page.id);
                 openContextMenu(e);
               }}
             >
-              <Page className="w-4" />
+              <Page className="w-4 text-sky-500" />
               <p>{page.name}</p>
             </Link>
           ))}
