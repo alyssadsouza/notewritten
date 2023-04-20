@@ -24,7 +24,7 @@ export default function Homepage() {
               : "w-0 overflow-hidden"
           }`}
         >
-          <Sidebar />
+          <Sidebar setTab={setTab} />
         </div>
         <div
           className={`h-full min-w-[810px] ${
