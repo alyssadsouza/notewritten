@@ -1,9 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import DOMPurify from "dompurify";
-import { NotebookPages, Page, getPageContent } from "../../utils/api";
+import { BlockNoteEditor, PartialBlock } from "@blocknote/core";
+import { BlockNoteView, useBlockNote } from "@blocknote/react";
+import "@blocknote/core/style.css";
+import {
+  NotebookPages,
+  Page,
+  getPageContent,
+  updatePageContent,
+} from "../../utils/api";
 import useNotebooks from "../../hooks/useNotebooks";
 import useAuth from "../../hooks/useAuth";
+
+const SAVE_CONTENT_INTERVAL = 2000;
 
 export default function TextEditor() {
   const { token } = useAuth();
@@ -12,13 +21,28 @@ export default function TextEditor() {
   const { notebook_id, page_id } = useParams();
   const navigate = useNavigate();
 
-  const [currentNotebook, setCurrentNotebook] = useState<NotebookPages | null>(null);
+  const [currentNotebook, setCurrentNotebook] = useState<NotebookPages | null>(
+    null
+  );
   const [currentPage, setCurrentPage] = useState<Page | null>(null);
-  const [fileContent, setFileContent] = useState<string>("");
+  const [initialContent, setInitialContent] = useState<PartialBlock[]>([]);
+  const [content, setContent] = useState<string>("");
 
+  const editor: BlockNoteEditor | null = useBlockNote({
+    // If the editor contents were previously saved, restores them.
+    initialContent,
+    // Serializes and saves the editor contents to local storage.
+    onEditorContentChange: (editor) => {
+      setContent(JSON.stringify(editor.topLevelBlocks));
+    },
+  });
+
+  // Validate current page and notebook id and set page accordingly
   useEffect(() => {
     // get current notebook by param id
-    const notebook = notebooks.find((notebook) => notebook.notebook.id === notebook_id);
+    const notebook = notebooks.find(
+      (notebook) => notebook.notebook.id === notebook_id
+    );
     if (!notebook) {
       navigate("/");
     } else {
@@ -33,23 +57,36 @@ export default function TextEditor() {
     }
   }, [notebook_id, page_id]);
 
+  // Get initial content from s3 bucket
   useEffect(() => {
     if (token && currentPage) {
       getPageContent(token, currentPage.id)
         .then((response) => {
-          console.log(response.data);
+          setInitialContent(JSON.parse(response.data));
         })
         .catch((err) => console.error(err));
     }
   }, [currentPage]);
 
-  const html = useMemo(() => {
-    if (fileContent) {
-      return {
-        __html: DOMPurify.sanitize(fileContent),
-      };
+  // Update editor's initial content when initialContent changes
+  useEffect(() => {
+    if (initialContent.length && editor) {
+      editor.replaceBlocks(editor.topLevelBlocks, initialContent);
     }
-  }, [fileContent]);
+  }, [initialContent, editor]);
+
+  // Save changes every 3 seconds after edits
+  useEffect(() => {
+    const interval = setTimeout(() => {
+      console.log("Autosaving content...");
+      if (token && page_id) {
+        updatePageContent(token, page_id, content)
+          .then((res) => console.log(res))
+          .catch((err) => console.error(err));
+      }
+    }, SAVE_CONTENT_INTERVAL);
+    return () => clearInterval(interval);
+  }, [content]);
 
   return (
     <div className="w-[794px] bg-transparent h-fit p-8">
@@ -61,11 +98,11 @@ export default function TextEditor() {
         </p>
         <p className="text-gray-400">Page 1 of 1</p>
       </div>
-      <div
-        key={page_id}
-        dangerouslySetInnerHTML={html}
-        className="w-full h-[1123px] bg-white p-16 animate-appear shadow-md"
-      />
+      {initialContent.length > 0 && (
+        <div key={initialContent} className="w-full h-[1123px] bg-white py-16 animate-appear shadow-md">
+          <BlockNoteView editor={editor} />
+        </div>
+      )}
     </div>
   );
 }

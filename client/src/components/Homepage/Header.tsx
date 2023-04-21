@@ -48,7 +48,7 @@ export default function Header({ tab, setTab }: Props) {
             }`}
           >
             {tab === button.tab ? button.activeIcon : button.icon}
-            <p className="absolute z-50 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-opacity translate-y-4 text-xs bg-black/70 text-white p-1 px-2 rounded-lg">
+            <p className="absolute z-[100] opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-opacity translate-y-4 text-xs bg-black/70 text-white p-1 px-2 rounded-lg">
               {button.tooltip}
             </p>
           </button>
@@ -60,7 +60,7 @@ export default function Header({ tab, setTab }: Props) {
       <div>
         <button onClick={logout}>
           <Logout className="peer/logout w-4 hover:text-teal-500 transition-all" />
-          <p className="absolute z-50 opacity-0 invisible peer-hover/logout:visible peer-hover/logout:opacity-100 transition-opacity right-5 top-10 text-xs bg-black/70 text-white p-1 px-2 rounded-lg">
+          <p className="absolute z-[100] opacity-0 invisible peer-hover/logout:visible peer-hover/logout:opacity-100 transition-opacity right-5 top-10 text-xs bg-black/70 text-white p-1 px-2 rounded-lg">
             Logout
           </p>
         </button>

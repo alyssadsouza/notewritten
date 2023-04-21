@@ -18,7 +18,7 @@ export default function Homepage() {
         }`}
       >
         <div
-          className={`h-full transition-all fixed left-0 shadow-md border ${
+          className={`h-full transition-all fixed left-0 z-50 shadow-md border ${
             tab === "Sidebar"
               ? "w-[20vw] min-w-[20rem] overflow-visible"
               : "w-0 overflow-hidden"
@@ -38,7 +38,7 @@ export default function Homepage() {
           <Outlet />
         </div>
         <div
-          className={`h-full transition-all overflow-hidden shadow-md fixed right-0 border ${
+          className={`h-full transition-all overflow-hidden z-50 shadow-md fixed right-0 border ${
             tab === "Equations" ? "w-[35vw] min-w-[35rem]" : "w-0"
           }`}
         >

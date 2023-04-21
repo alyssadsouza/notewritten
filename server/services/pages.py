@@ -9,7 +9,7 @@ BUCKET = 'notewritten-pages'
 def get_upload_key(name: str, user_id: str, notebook_id: str):
 	"""Generates upload key to upload page to user_id/notebook_id/name.md
 	"""
-	return f"{user_id}/{notebook_id}/{name}.md"
+	return f"{user_id}/{notebook_id}/{name}"
 
 def upload_page_content(body: str, key: str):
 	"""Writes string content to a markdown file and uploads to s3 bucket

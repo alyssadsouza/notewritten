@@ -85,14 +85,14 @@ export default function Sidebar({ setTab }: Props) {
         <p className="text-slate-400 font-medium">Files</p>
         <div className="flex justify-end items-center gap-2">
           <button onClick={addNotebook}>
-            <NewNotebook className="w-4 hover:text-teal-500 text-slate-400 transition-all" />
+            <NewNotebook className="w-[1.1rem] hover:text-teal-500 text-slate-400 transition-all" />
           </button>
           <button
             onClick={addPage}
             disabled={!notebook_id}
             className="text-slate-400 hover:text-teal-500 disabled:text-slate-300 disabled:hover-text-slate-300"
           >
-            <NewPage className="w-4 transition-all" />
+            <NewPage className="w-[1.1rem] transition-all" />
           </button>
         </div>
       </div>
