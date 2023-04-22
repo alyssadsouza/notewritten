@@ -11,6 +11,7 @@ import {
 } from "../../utils/api";
 import useNotebooks from "../../hooks/useNotebooks";
 import useAuth from "../../hooks/useAuth";
+import { ReactComponent as Loading } from "../../assets/spinner.svg";
 
 const SAVE_CONTENT_INTERVAL = 2000;
 
@@ -26,6 +27,7 @@ export default function TextEditor() {
   );
   const [currentPage, setCurrentPage] = useState<Page | null>(null);
   const [initialContent, setInitialContent] = useState<PartialBlock[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [content, setContent] = useState<string>("");
 
   const editor: BlockNoteEditor | null = useBlockNote({
@@ -60,9 +62,11 @@ export default function TextEditor() {
   // Get initial content from s3 bucket
   useEffect(() => {
     if (token && currentPage) {
+	setIsLoading(true);
       getPageContent(token, currentPage.id)
         .then((response) => {
-          setInitialContent(JSON.parse(response.data));
+          setInitialContent(JSON.parse(response.data || ""));
+		  setIsLoading(false);
         })
         .catch((err) => console.error(err));
     }
@@ -75,7 +79,7 @@ export default function TextEditor() {
     }
   }, [initialContent, editor]);
 
-  // Save changes every 3 seconds after edits
+  // Save changes every 2 seconds after edits
   useEffect(() => {
     const interval = setTimeout(() => {
       console.log("Autosaving content...");
@@ -89,18 +93,27 @@ export default function TextEditor() {
   }, [content]);
 
   return (
-    <div className="w-[794px] bg-transparent h-fit p-8">
-      <div className="flex justify-between items-center text-sm my-1">
-        <p>
-          {currentNotebook?.notebook.name}{" "}
-          <span className="text-gray-300 mx-2">/</span>{" "}
-          <span className="font-semibold">{currentPage?.name}</span>
-        </p>
-        <p className="text-gray-400">Page 1 of 1</p>
-      </div>
-      {initialContent.length > 0 && (
-        <div key={initialContent} className="w-full h-[1123px] bg-white py-16 animate-appear shadow-md">
-          <BlockNoteView editor={editor} />
+    <div className="w-[794px] bg-transparent h-full p-8">
+      {!isLoading ? (
+        <>
+          <div className="flex justify-between items-center text-sm my-1">
+            <p>
+              {currentNotebook?.notebook.name}{" "}
+              <span className="text-gray-300 mx-2">/</span>{" "}
+              <span className="font-semibold">{currentPage?.name}</span>
+            </p>
+            <p className="text-gray-400">Page 1 of 1</p>
+          </div>
+          <div
+            key={JSON.stringify(initialContent)}
+            className="w-full h-[1123px] bg-white py-12 px-6 animate-appear shadow-md"
+          >
+            <BlockNoteView editor={editor} />
+          </div>
+        </>
+      ) : (
+        <div className="flex h-full w-full justify-center items-center">
+          <Loading className="w-12 animate-spin" />
         </div>
       )}
     </div>

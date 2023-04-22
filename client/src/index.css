@@ -32,3 +32,13 @@ code {
 pre code {
 	@apply p-3 block
 }
+
+[data-level="1"] {
+	@apply !text-4xl leading-[4rem]
+}
+[data-level="2"] {
+	@apply !text-2xl leading-[3rem]
+}
+[data-level="3"] {
+	@apply !text-lg leading-[2rem]
+}

@@ -8,6 +8,7 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from services.users import create_user, get_user
 from services.notebooks import create_notebook
+from services.pages import create_page
 from models.schemas import UserBase, UserCreate, Token, TokenData
 from models.models import User
 from database import get_db
@@ -83,6 +84,7 @@ def register(body: UserCreate, session: Session = Depends(get_db)):
 	user = create_user(session, body.email, get_password_hash(body.password))
 	if user is not None:
 		notebook = create_notebook(session, user.id, "Untitled Notebook")
+		page = create_page(session, user.id, notebook.id, "Untitled Page")
 		return UserBase(email=user.email)
 	raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists")
 
