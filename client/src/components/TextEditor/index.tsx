@@ -13,7 +13,7 @@ import useNotebooks from "../../hooks/useNotebooks";
 import useAuth from "../../hooks/useAuth";
 import { ReactComponent as Loading } from "../../assets/spinner.svg";
 
-const SAVE_CONTENT_INTERVAL = 2000;
+const SAVE_CONTENT_TIMEOUT = 2000;
 
 export default function TextEditor() {
   const { token } = useAuth();
@@ -81,15 +81,15 @@ export default function TextEditor() {
 
   // Save changes every 2 seconds after edits
   useEffect(() => {
-    const interval = setTimeout(() => {
+    const timeout = setTimeout(() => {
       console.log("Autosaving content...");
       if (token && page_id) {
         updatePageContent(token, page_id, content)
           .then((res) => console.log(res))
           .catch((err) => console.error(err));
       }
-    }, SAVE_CONTENT_INTERVAL);
-    return () => clearInterval(interval);
+    }, SAVE_CONTENT_TIMEOUT);
+    return () => clearTimeout(timeout);
   }, [content]);
 
   return (
