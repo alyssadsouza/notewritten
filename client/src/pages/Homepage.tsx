@@ -18,7 +18,7 @@ export default function Homepage() {
         }`}
       >
         <div
-          className={`h-full transition-all fixed left-0 z-50 shadow-md border ${
+          className={`h-full transition-all fixed left-0 z-50 border ${
             tab === "Sidebar"
               ? "w-[20vw] min-w-[20rem] overflow-visible"
               : "w-0 overflow-hidden"

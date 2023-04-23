@@ -75,7 +75,7 @@ export default function Sidebar({ setTab }: Props) {
   return (
     <div
       key={`${notebook_id}-${page_id}`}
-      className="w-full h-full bg-white/75 p-4 !overflow-visible text-sm text-slate-500"
+      className="w-full h-full bg-slate-100 p-4 !overflow-visible text-sm text-slate-500"
       onContextMenu={(e) => {
         setOpenSecondaryMenu(true);
         openContextMenu(e);
@@ -130,7 +130,7 @@ export default function Sidebar({ setTab }: Props) {
               <Link
                 to={`/${notebook.notebook.id}/${page.id}`}
                 className={`flex items-center gap-2 p-1 pl-4 hover:text-teal-500 transition-all ${
-                  page_id === page.id && "bg-slate-100 text-slate-800"
+                  page_id === page.id && "bg-slate-200 text-slate-800"
                 }`}
                 key={page.id}
                 onContextMenu={(e) => {

@@ -62,13 +62,13 @@ export default function TextEditor() {
   // Get initial content from s3 bucket
   useEffect(() => {
     if (token && currentPage) {
-	setIsLoading(true);
+      setIsLoading(true);
       getPageContent(token, currentPage.id)
         .then((response) => {
           setInitialContent(JSON.parse(response.data || ""));
-		  setIsLoading(false);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error(err))
+        .finally(() => setIsLoading(false));
     }
   }, [currentPage]);
 
