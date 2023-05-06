@@ -156,6 +156,17 @@ const renderLatex = (data: Data, displayMode: boolean = true) => {
     throwOnError: false,
   });
 
+  if (!input.value) {
+	input.classList.add("block");
+}
+  input.addEventListener("input", (e) => {
+	if (!input.value) {
+		input.classList.add("block");
+	} else {
+		input.classList.remove("block");
+	}
+  })
+
   input.addEventListener("keyup", (e) => {
     e.preventDefault();
     katex.render(input.value, preview, {

@@ -10,7 +10,7 @@ export default function EquationEditor() {
             Any math symbols you write here will be converted into LaTeX in your
             note on the right.
           </p>
-          <p className="my-4">Typing inline LaTeX like <code>$$x=1$$</code> also works. Try it out!</p>
+          <p className="my-4">You can also type LaTeX with <code className="font-bold">CMD+SHIFT+M</code>. Try it out!</p>
         </div>
       </div>
     </div>
