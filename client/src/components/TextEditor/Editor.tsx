@@ -1,7 +1,7 @@
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import { useEffect, useRef } from "react";
-import LaTeX from 'editorjs-simple-latex';
+import LaTeX, { LaTeXInline } from "./tools/latex";
 
 type Props = {
   initialContent: OutputData | undefined;
@@ -25,7 +25,6 @@ export const EditorComponent = ({ initialContent, setContent }: Props) => {
       },
       tools: {
         header: {
-          // @ts-ignore
           class: Header,
           shortcut: "CMD+SHIFT+H",
           config: {
@@ -36,8 +35,12 @@ export const EditorComponent = ({ initialContent, setContent }: Props) => {
         },
         latex: {
           class: LaTeX,
-		  shortcut: "CMD+SHIFT+M",
+          shortcut: "CMD+SHIFT+M",
         },
+		// TODO: implement
+        // latexInline: {
+        //   class: LaTeXInline,
+        // },
       },
     });
   };
@@ -53,5 +56,7 @@ export const EditorComponent = ({ initialContent, setContent }: Props) => {
     };
   }, []);
 
-  return <div id="editorjs"></div>;
+  return (
+    <div id="editorjs" className="prose prose-stone dark:prose-invert"></div>
+  );
 };

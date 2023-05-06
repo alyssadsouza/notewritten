@@ -2,46 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-h1 {
-	@apply text-3xl font-bold
-}
-h2 {
-	@apply text-2xl font-bold
-}
-h3 {
-	@apply text-xl font-bold
-}
-h4 {
-	@apply text-lg font-bold
-}
-h5 {
-	@apply text-base font-bold
-}
-ul, ol {
-	@apply pl-8
-}
-ol {
-	@apply list-decimal
-}
-ul {
-	@apply list-disc
-}
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&display=swap');
+
 code {
-	@apply bg-gray-100 rounded-md p-1 text-sm
+  @apply bg-gray-100 rounded-md p-1 text-sm;
 }
 pre code {
-	@apply p-3 block
+  @apply p-3 block;
 }
 
-[data-level="1"] {
-	@apply !text-4xl leading-[4rem]
+.katex-html[aria-hidden="true"] {
+  @apply hidden;
 }
-[data-level="2"] {
-	@apply !text-2xl leading-[3rem]
-}
-[data-level="3"] {
-	@apply !text-lg leading-[2rem]
-}
+
 .latex-block {
-	@apply !border-0
+  @apply flex flex-col items-center justify-center text-lg relative;
+}
+
+math {
+	@apply !font-math;
+}
+
+.latex-block,
+.latex-block-preview {
+  @apply w-full my-2;
+}
+
+.latex-block-input {
+  @apply animate-appear absolute top-12 z-50 font-mono text-sm text-gray-600 focus:block bg-gray-100 p-2 shadow-lg rounded-md focus:outline-none my-4 h-24 w-56;
+}
+
+.latex-inline {
+	@apply inline w-fit
+}
+
+.latex-inline .latex-block-preview {
+  @apply w-fit my-0;
+}
+
+.latex-inline .latex-block-input {
+	@apply top-4 left-0
 }

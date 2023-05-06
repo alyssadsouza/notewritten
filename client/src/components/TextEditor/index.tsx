@@ -12,7 +12,7 @@ import useNotebooks from "../../hooks/useNotebooks";
 import useAuth from "../../hooks/useAuth";
 import { ReactComponent as Loading } from "../../assets/spinner.svg";
 
-const SAVE_CONTENT_TIMEOUT = 1000;
+const SAVE_CONTENT_TIMEOUT = 500;
 
 export default function TextEditor() {
   const { token } = useAuth();
@@ -90,11 +90,11 @@ export default function TextEditor() {
                 <Loading className="w-4 animate-spin text-slate-300 ml-2" />
               )}
             </div>
-            <p className="text-gray-400">Page 1 of 1</p>
+            {/* <p className="text-gray-400">Page 1 of 1</p> */}
           </div>
           <div
             key={JSON.stringify(initialContent)}
-            className="w-full min-h-[1123px] h-full bg-white py-12 px-6 animate-appear shadow-md"
+            className="w-full min-h-[1123px] h-full bg-white dark:bg-neutral-800 py-12 px-6 animate-appear shadow-md"
           >
             <EditorComponent
               initialContent={initialContent}
