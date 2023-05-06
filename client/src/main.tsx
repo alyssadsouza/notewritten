@@ -6,11 +6,11 @@ import { AuthProvider } from './hooks/useAuth';
 import { NotebooksProvider } from './hooks/useNotebooks';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+//   <React.StrictMode>
     <AuthProvider>
       <NotebooksProvider>
 		<App />
 	  </NotebooksProvider>
     </AuthProvider>
-  </React.StrictMode>,
+//   </React.StrictMode>,
 )

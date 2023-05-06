@@ -29,7 +29,7 @@ function Login() {
           <div className="alert alert-red w-[20rem]">
             <span>✕</span>
             <p className="w-full">
-              {error.response.status === 401
+              {error.response?.status === 401
                 ? "Invalid username or password."
                 : "Something went wrong. Please try again."}
             </p>

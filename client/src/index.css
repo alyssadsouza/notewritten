@@ -42,3 +42,6 @@ pre code {
 [data-level="3"] {
 	@apply !text-lg leading-[2rem]
 }
+.latex-block {
+	@apply !border-0
+}

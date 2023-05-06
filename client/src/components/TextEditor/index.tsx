@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BlockNoteEditor, PartialBlock } from "@blocknote/core";
-import { BlockNoteView, useBlockNote } from "@blocknote/react";
-import "@blocknote/core/style.css";
+import { EditorComponent } from "./Editor";
+import { OutputData } from "@editorjs/editorjs";
 import {
   NotebookPages,
   Page,
@@ -13,7 +12,7 @@ import useNotebooks from "../../hooks/useNotebooks";
 import useAuth from "../../hooks/useAuth";
 import { ReactComponent as Loading } from "../../assets/spinner.svg";
 
-const SAVE_CONTENT_TIMEOUT = 2000;
+const SAVE_CONTENT_TIMEOUT = 1000;
 
 export default function TextEditor() {
   const { token } = useAuth();
@@ -26,18 +25,10 @@ export default function TextEditor() {
     null
   );
   const [currentPage, setCurrentPage] = useState<Page | null>(null);
-  const [initialContent, setInitialContent] = useState<PartialBlock[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [content, setContent] = useState<string>("");
-
-  const editor: BlockNoteEditor | null = useBlockNote({
-    // If the editor contents were previously saved, restores them.
-    initialContent,
-    // Serializes and saves the editor contents to local storage.
-    onEditorContentChange: (editor) => {
-      setContent(JSON.stringify(editor.topLevelBlocks));
-    },
-  });
+  const [initialContent, setInitialContent] = useState<OutputData>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [content, setContent] = useState<string>(""); // stringified content used only for saving
 
   // Validate current page and notebook id and set page accordingly
   useEffect(() => {
@@ -72,50 +63,50 @@ export default function TextEditor() {
     }
   }, [currentPage]);
 
-  // Update editor's initial content when initialContent changes
-  useEffect(() => {
-    if (initialContent.length && editor) {
-      editor.replaceBlocks(editor.topLevelBlocks, initialContent);
-    }
-  }, [initialContent, editor]);
-
   // Save changes every 2 seconds after edits
   useEffect(() => {
     const timeout = setTimeout(() => {
-      console.log("Autosaving content...");
       if (token && page_id) {
+        setIsSaving(true);
         updatePageContent(token, page_id, content)
           .then((res) => console.log(res))
-          .catch((err) => console.error(err));
+          .catch((err) => console.error(err))
+          .finally(() => setTimeout(() => setIsSaving(false), 1000));
       }
     }, SAVE_CONTENT_TIMEOUT);
     return () => clearTimeout(timeout);
   }, [content]);
 
   return (
-    <div className="w-[794px] bg-transparent h-full p-8">
+    <>
       {!isLoading ? (
-        <>
+        <div className="w-[794px] bg-transparent p-8 mb-8">
           <div className="flex justify-between items-center text-sm my-1">
-            <p>
-              {currentNotebook?.notebook.name}{" "}
-              <span className="text-gray-300 mx-2">/</span>{" "}
-              <span className="font-semibold">{currentPage?.name}</span>
-            </p>
+            <div className="inline-flex items-center gap-2">
+              {currentNotebook?.notebook.name}
+              <p className="text-gray-300 mx-2">/</p>
+              <p className="font-semibold">{currentPage?.name}</p>
+              {isSaving && (
+                <Loading className="w-4 animate-spin text-slate-300 ml-2" />
+              )}
+            </div>
             <p className="text-gray-400">Page 1 of 1</p>
           </div>
           <div
             key={JSON.stringify(initialContent)}
-            className="w-full h-[1123px] bg-white py-12 px-6 animate-appear shadow-md"
+            className="w-full min-h-[1123px] h-full bg-white py-12 px-6 animate-appear shadow-md"
           >
-            <BlockNoteView editor={editor} />
+            <EditorComponent
+              initialContent={initialContent}
+              setContent={setContent}
+            />
           </div>
-        </>
+        </div>
       ) : (
         <div className="flex h-full w-full justify-center items-center">
           <Loading className="w-12 animate-spin" />
         </div>
       )}
-    </div>
+    </>
   );
 }
