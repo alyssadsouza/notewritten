@@ -29,7 +29,7 @@ math {
 }
 
 .latex-block-input {
-  @apply animate-appear absolute top-12 z-50 font-mono text-sm text-gray-600 focus:block bg-gray-100 p-2 shadow-lg rounded-md focus:outline-none my-4 h-24 w-56;
+  @apply hidden peer-focus:block hover:block focus:block animate-appear absolute top-12 z-50 font-mono text-sm text-gray-600 bg-gray-100 p-2 shadow-lg rounded-md focus:outline-none my-4 h-24 w-56;
 }
 
 .latex-inline {
@@ -42,4 +42,8 @@ math {
 
 .latex-inline .latex-block-input {
 	@apply top-4 left-0
+}
+
+.codeflask.codeflask--has-line-numbers {
+	@apply z-0
 }

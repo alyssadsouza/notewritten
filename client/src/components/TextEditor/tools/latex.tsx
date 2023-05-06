@@ -57,7 +57,7 @@ export class LaTeXInline {
   set state(state) {
     this._state = state;
   }
-
+  // @ts-ignore
   constructor({ api }) {
     this.api = api;
     this.button = null;
@@ -142,7 +142,7 @@ const renderLatex = (data: Data, displayMode: boolean = true) => {
   }
 
   wrapper.classList.add("latex-block");
-  preview.classList.add("latex-block-preview");
+  preview.classList.add("latex-block-preview","peer");
   input.classList.add("latex-block-input");
 
   input.placeholder = `\\begin{align}
@@ -162,11 +162,6 @@ const renderLatex = (data: Data, displayMode: boolean = true) => {
       displayMode,
       throwOnError: false,
     });
-  });
-
-  wrapper.addEventListener("click", (e) => {
-    e.preventDefault();
-    input.classList.toggle("hidden");
   });
 
   wrapper.appendChild(preview);
