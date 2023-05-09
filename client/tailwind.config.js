@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        math: ["Libre Caslon Display", "ui-serif"],
+        math: ["ui-serif"],
       },
       keyframes: {
         appear: {
