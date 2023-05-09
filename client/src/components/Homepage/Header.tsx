@@ -37,14 +37,14 @@ const buttons = [
 export default function Header({ tab, setTab }: Props) {
   const { logout } = useAuth();
   return (
-    <div className="w-screen h-full bg-white/75 text-slate-400 flex justify-between items-center px-4 py-2 relative">
+    <div className="w-screen h-full bg-white/75 dark:bg-neutral-800 text-slate-400 dark:text-neutral-500 flex justify-between items-center px-4 py-2 relative">
       <div className="flex gap-2">
         {buttons.map((button) => (
           <button
             key={button.tab}
             onClick={() => setTab(button.tab)}
             className={`hover:text-teal-500 transition-all p-1 group ${
-              tab === button.tab && "bg-teal-50 rounded-full"
+              tab === button.tab && "bg-teal-50 dark:bg-teal-50/10 rounded-full"
             }`}
           >
             {tab === button.tab ? button.activeIcon : button.icon}
@@ -55,7 +55,7 @@ export default function Header({ tab, setTab }: Props) {
         ))}
       </div>
       <Link to="/">
-        <Logo className="h-4 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" />
+        <Logo className="h-4 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-black dark:text-white" />
       </Link>
       <div>
         <button onClick={logout}>

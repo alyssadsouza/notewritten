@@ -8,7 +8,7 @@ export default function Homepage() {
   const [tab, setTab] = useState<string>("Sidebar");
 
   return (
-    <div className="bg-slate-50 text-slate-800">
+    <div className="bg-slate-50 text-slate-800 dark:bg-neutral-900 dark:text-gray-200">
       <div className="h-[5vh] shadow-sm">
         <Header tab={tab} setTab={setTab} />
       </div>
@@ -18,7 +18,7 @@ export default function Homepage() {
         }`}
       >
         <div
-          className={`h-full transition-all fixed left-0 z-50 border ${
+          className={`h-full transition-all fixed left-0 z-50 border dark:border-0 dark:border-t dark:border-neutral-700/70 ${
             tab === "Sidebar"
               ? "w-[20vw] min-w-[20rem] overflow-visible"
               : "w-0 overflow-hidden"
@@ -38,7 +38,7 @@ export default function Homepage() {
           <Outlet />
         </div>
         <div
-          className={`h-full transition-all overflow-hidden z-50 shadow-md fixed right-0 border ${
+          className={`h-full transition-all overflow-hidden z-50 shadow-md fixed right-0 border dark:border-0 ${
             tab === "Equations" ? "w-[35vw] min-w-[35rem]" : "w-0"
           }`}
         >

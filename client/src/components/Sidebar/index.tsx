@@ -75,22 +75,22 @@ export default function Sidebar({ setTab }: Props) {
   return (
     <div
       key={`${notebook_id}-${page_id}`}
-      className="w-full h-full bg-slate-100 p-4 !overflow-visible text-sm text-slate-500"
+      className="w-full h-full bg-slate-100 dark:bg-neutral-800 p-4 !overflow-visible text-sm text-slate-500 dark:text-neutral-500"
       onContextMenu={(e) => {
         setOpenSecondaryMenu(true);
         openContextMenu(e);
       }}
     >
       <div className="flex justify-between items-center gap-2">
-        <p className="text-slate-400 font-medium">Files</p>
+        <p className="text-slate-400 dark:text-neutral-500 font-medium">Files</p>
         <div className="flex justify-end items-center gap-2">
           <button onClick={addNotebook}>
-            <NewNotebook className="w-[1.1rem] hover:text-teal-500 text-slate-400 transition-all" />
+            <NewNotebook className="w-[1.1rem] hover:text-teal-500 text-slate-400 dark:text-neutral-500 transition-all" />
           </button>
           <button
             onClick={addPage}
             disabled={!notebook_id}
-            className="text-slate-400 hover:text-teal-500 disabled:text-slate-300 disabled:hover-text-slate-300"
+            className="text-slate-400 hover:text-teal-500 disabled:text-slate-300 dark:text-neutral-500 dark:disabled:text-neutral-700 disabled:hover-text-slate-300"
           >
             <NewPage className="w-[1.1rem] transition-all" />
           </button>
@@ -113,12 +113,12 @@ export default function Sidebar({ setTab }: Props) {
             {notebook_id === notebook.notebook.id ? (
               <OpenNotebook className="w-5 text-yellow-500" />
             ) : (
-              <Notebook className="w-4 text-slate-400" />
+              <Notebook className="w-4 text-slate-400 dark:text-neutral-500" />
             )}
             <h3
               className={`text-sm ${
                 notebook.notebook.id === notebook_id
-                  ? "font-semibold text-slate-800"
+                  ? "font-semibold text-slate-800 dark:text-neutral-300"
                   : "font-normal"
               }`}
             >
@@ -130,7 +130,7 @@ export default function Sidebar({ setTab }: Props) {
               <Link
                 to={`/${notebook.notebook.id}/${page.id}`}
                 className={`flex items-center gap-2 p-1 pl-4 hover:text-teal-500 transition-all ${
-                  page_id === page.id && "bg-slate-200 text-slate-800"
+                  page_id === page.id && "bg-slate-200 text-slate-800 dark:bg-neutral-700/75 dark:text-neutral-300"
                 }`}
                 key={page.id}
                 onContextMenu={(e) => {
@@ -142,7 +142,7 @@ export default function Sidebar({ setTab }: Props) {
               >
                 <Page
                   className={`w-5 ${
-                    page.id === page_id ? "text-teal-500" : "text-slate-400"
+                    page.id === page_id ? "text-teal-500" : "text-slate-400 dark:text-neutral-500"
                   }`}
                 />
                 <p>{page.name}</p>
